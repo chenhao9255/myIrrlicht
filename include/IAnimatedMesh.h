@@ -53,7 +53,8 @@ namespace scene
 		//! generic skinned mesh
 		EAMT_SKINNED
 	};
-
+	//模型动画，以制作好的模型为对象来制作的定格动画。只能在编辑器中制作。
+	//例如当物体移动是，其不是经过计算而得到的位置，而是直接读取所有顶点在下一个动作的位置
 	//! Interface for an animated mesh.
 	/** There are already simple implementations of this interface available so
 	you don't have to implement this interface on your own if you need to:

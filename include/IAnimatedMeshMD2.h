@@ -40,7 +40,7 @@ namespace scene
 		//! Not an animation, but amount of animation types.
 		EMAT_COUNT
 	};
-
+   //MD2 mesh的功能接口
 	//! Interface for using some special functions of MD2 meshes
 	class IAnimatedMeshMD2 : public IAnimatedMesh
 	{

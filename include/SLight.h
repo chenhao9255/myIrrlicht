@@ -34,7 +34,7 @@ const c8* const LightTypeNames[] =
 	"Directional",
 	0
 };
-
+//µ„π‚‘¥
 //! structure for holding data describing a dynamic point light.
 /** Irrlicht supports point lights, spot lights, and directional lights.
 */

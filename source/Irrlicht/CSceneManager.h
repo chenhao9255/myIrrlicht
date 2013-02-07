@@ -585,6 +585,7 @@ namespace scene
 			{
 				Node = n;
 				Distance = Node->getAbsoluteTransformation().getTranslation().getDistanceFromSQ(fromPosition);
+				//包围盒中最大两个点的位置间的距离
 				Distance -= Node->getBoundingBox().getExtent().getLengthSQ() * 0.5;
 			}
 
@@ -629,6 +630,7 @@ namespace scene
 		core::vector3df camWorldPos; // Position of camera for transparent nodes.
 
 		video::SColor ShadowColor;
+		//环境光
 		video::SColorf AmbientLight;
 
 		//! String parameters
@@ -636,7 +638,8 @@ namespace scene
 
 		//! Mesh cache
 		IMeshCache* MeshCache;
-
+    
+		//当前的渲染分类
 		E_SCENE_NODE_RENDER_PASS CurrentRendertime;
 
 		//! An optional callbacks manager to allow the user app finer control

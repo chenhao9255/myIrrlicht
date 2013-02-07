@@ -274,12 +274,12 @@ void CAnimatedMeshSceneNode::render()
 		SceneManager->getSceneNodeRenderPass() == scene::ESNRP_TRANSPARENT;
 
 	++PassCount;
+    //获取这一帧的mesh
+	scene::IMesh* myMeshForCurrentFrame = getMeshForCurrentFrame();
 
-	scene::IMesh* myMesh = getMeshForCurrentFrame();
-
-	if(myMesh)
+	if(myMeshForCurrentFrame)
 	{
-		Box = myMesh->getBoundingBox();
+		Box = myMeshForCurrentFrame->getBoundingBox();
 	}
 	else
 	{
@@ -303,9 +303,9 @@ void CAnimatedMeshSceneNode::render()
 		if (DebugDataVisible & scene::EDS_HALF_TRANSPARENCY)
 		{
 
-			for (u32 i=0; i<myMesh->getMeshBufferCount(); ++i)
+			for (u32 i=0; i<myMeshForCurrentFrame->getMeshBufferCount(); ++i)
 			{
-				scene::IMeshBuffer* mb = myMesh->getMeshBuffer(i);
+				scene::IMeshBuffer* mb = myMeshForCurrentFrame->getMeshBuffer(i);
 				mat = ReadOnlyMaterials ? mb->getMaterial() : Materials[i];
 				mat.MaterialType = video::EMT_TRANSPARENT_ADD_COLOR;
 				if (RenderFromIdentity)
@@ -319,11 +319,11 @@ void CAnimatedMeshSceneNode::render()
 			renderMeshes = false;
 		}
 	}
-
+    //渲染模型
 	// render original meshes
 	if (renderMeshes)
 	{
-		for (u32 i=0; i<myMesh->getMeshBufferCount(); ++i)
+		for (u32 i=0; i<myMeshForCurrentFrame->getMeshBufferCount(); ++i)
 		{
 			video::IMaterialRenderer* rnd = driver->getMaterialRenderer(Materials[i].MaterialType);
 			bool transparent = (rnd && rnd->isTransparent());
@@ -332,7 +332,7 @@ void CAnimatedMeshSceneNode::render()
 			// and solid only in solid pass
 			if (transparent == isTransparentPass)
 			{
-				scene::IMeshBuffer* mb = myMesh->getMeshBuffer(i);
+				scene::IMeshBuffer* mb = myMeshForCurrentFrame->getMeshBuffer(i);
 				const video::SMaterial& material = ReadOnlyMaterials ? mb->getMaterial() : Materials[i];
 				if (RenderFromIdentity)
 					driver->setTransform(video::ETS_WORLD, core::IdentityMatrix );
@@ -359,12 +359,12 @@ void CAnimatedMeshSceneNode::render()
 		{
 			const f32 debugNormalLength = SceneManager->getParameters()->getAttributeAsFloat(DEBUG_NORMAL_LENGTH);
 			const video::SColor debugNormalColor = SceneManager->getParameters()->getAttributeAsColor(DEBUG_NORMAL_COLOR);
-			const u32 count = myMesh->getMeshBufferCount();
+			const u32 count = myMeshForCurrentFrame->getMeshBufferCount();
 
 			// draw normals
 			for (u32 g=0; g < count; ++g)
 			{
-				driver->drawMeshBufferNormals(myMesh->getMeshBuffer(g), debugNormalLength, debugNormalColor);
+				driver->drawMeshBufferNormals(myMeshForCurrentFrame->getMeshBuffer(g), debugNormalLength, debugNormalColor);
 			}
 		}
 
@@ -378,9 +378,9 @@ void CAnimatedMeshSceneNode::render()
 		// show bounding box
 		if (DebugDataVisible & scene::EDS_BBOX_BUFFERS)
 		{
-			for (u32 g=0; g< myMesh->getMeshBufferCount(); ++g)
+			for (u32 g=0; g< myMeshForCurrentFrame->getMeshBufferCount(); ++g)
 			{
-				const IMeshBuffer* mb = myMesh->getMeshBuffer(g);
+				const IMeshBuffer* mb = myMeshForCurrentFrame->getMeshBuffer(g);
 
 				if (Mesh->getMeshType() == EAMT_SKINNED)
 					driver->setTransform(video::ETS_WORLD, AbsoluteTransformation * ((SSkinMeshBuffer*)mb)->Transformation);
@@ -451,9 +451,9 @@ void CAnimatedMeshSceneNode::render()
 			debug_mat.ZBuffer = video::ECFN_DISABLED;
 			driver->setMaterial(debug_mat);
 
-			for (u32 g=0; g<myMesh->getMeshBufferCount(); ++g)
+			for (u32 g=0; g<myMeshForCurrentFrame->getMeshBufferCount(); ++g)
 			{
-				const IMeshBuffer* mb = myMesh->getMeshBuffer(g);
+				const IMeshBuffer* mb = myMeshForCurrentFrame->getMeshBuffer(g);
 				if (RenderFromIdentity)
 					driver->setTransform(video::ETS_WORLD, core::IdentityMatrix );
 				else if (Mesh->getMeshType() == EAMT_SKINNED)
@@ -691,7 +691,7 @@ bool CAnimatedMeshSceneNode::removeChild(ISceneNode* child)
 	return false;
 }
 
-
+//设置模型动画的类型
 //! Starts a MD2 animation.
 bool CAnimatedMeshSceneNode::setMD2Animation(EMD2_ANIMATION_TYPE anim)
 {
@@ -839,13 +839,13 @@ void CAnimatedMeshSceneNode::setMesh(IAnimatedMesh* mesh)
 
 	// get materials and bounding box
 	Box = Mesh->getBoundingBox();
-
+   //返回第0帧的mesh
 	IMesh* m = Mesh->getMesh(0,0);
 	if (m)
 	{
 		Materials.clear();
 		Materials.reallocate(m->getMeshBufferCount());
-
+		//从模型动画中把材质取出来
 		for (u32 i=0; i<m->getMeshBufferCount(); ++i)
 		{
 			IMeshBuffer* mb = m->getMeshBuffer(i);

@@ -430,7 +430,7 @@ namespace scene
 			return 0;
 		}
 
-
+        //设置每个材质中的属性
 		//! Sets all material flags at once to a new value.
 		/** Useful, for example, if you want the whole mesh to be
 		affected by light.
@@ -442,7 +442,7 @@ namespace scene
 				getMaterial(i).setFlag(flag, newvalue);
 		}
 
-
+        //给每个材质都设置纹理
 		//! Sets the texture of the specified layer in all materials of this scene node to the new texture.
 		/** \param textureLayer Layer of texture to be set. Must be a
 		value smaller than MATERIAL_MAX_TEXTURES.

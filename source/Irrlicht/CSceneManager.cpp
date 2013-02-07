@@ -1396,9 +1396,9 @@ void CSceneManager::drawAll()
 
 	//render camera scenes
 	{
+		//设置当前的渲染类型
 		CurrentRendertime = ESNRP_CAMERA;
 		Driver->getOverrideMaterial().Enabled = ((Driver->getOverrideMaterial().EnablePasses & CurrentRendertime) != 0);
-
 		if (LightManager)
 			LightManager->OnRenderPassPreRender(CurrentRendertime);
 
@@ -1426,21 +1426,22 @@ void CSceneManager::drawAll()
 			core::vector3df camWorldPos(0, 0, 0);
 			if (ActiveCamera)
 				camWorldPos = ActiveCamera->getAbsolutePosition();
-
+			//计算每个light node和camera的平方距离
 			core::array<DistanceNodeEntry> SortedLights;
 			SortedLights.set_used(LightList.size());
 			for (s32 light = (s32)LightList.size() - 1; light >= 0; --light)
 				SortedLights[light].setNodeAndDistanceFromPosition(LightList[light], camWorldPos);
 
 			SortedLights.set_sorted(false);
+			//根据距离把light node排序
 			SortedLights.sort();
-
+			//把排序好的light node回写
 			for(s32 light = (s32)LightList.size() - 1; light >= 0; --light)
 				LightList[light] = SortedLights[light].Node;
 		}
 
 		Driver->deleteAllDynamicLights();
-
+        //设置环境灯光颜色
 		Driver->setAmbientLight(AmbientLight);
 
 		u32 maxLights = LightList.size();

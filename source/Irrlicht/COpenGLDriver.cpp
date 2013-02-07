@@ -2645,7 +2645,7 @@ video::ITexture* COpenGLDriver::createDeviceDependentTexture(IImage* surface, co
 	return new COpenGLTexture(surface, name, mipmapData, this);
 }
 
-
+//设置材质和活动纹理
 //! Sets a material. All 3d drawing functions draw geometry now using this material.
 void COpenGLDriver::setMaterial(const SMaterial& material)
 {
@@ -3581,6 +3581,8 @@ const wchar_t* COpenGLDriver::getName() const
 //! deletes all dynamic lights there are
 void COpenGLDriver::deleteAllDynamicLights()
 {
+	//关闭默认的8个灯光
+	//glDisable可以关闭任何东西，其参数可以美剧所有的属性
 	for (s32 i=0; i<MaxLights; ++i)
 		glDisable(GL_LIGHT0 + i);
 
@@ -3589,7 +3591,7 @@ void COpenGLDriver::deleteAllDynamicLights()
 	CNullDriver::deleteAllDynamicLights();
 }
 
-
+//在RequestedLight中增加一个light, 并且增加一个硬件灯光
 //! adds a dynamic light
 s32 COpenGLDriver::addDynamicLight(const SLight& light)
 {
@@ -3605,7 +3607,7 @@ s32 COpenGLDriver::addDynamicLight(const SLight& light)
 	return (s32)newLightIndex;
 }
 
-
+//往openGL中设置灯光的参数
 void COpenGLDriver::assignHardwareLight(u32 lightIndex)
 {
 	setTransform(ETS_WORLD, core::matrix4());
@@ -3613,6 +3615,7 @@ void COpenGLDriver::assignHardwareLight(u32 lightIndex)
 	s32 lidx;
 	for (lidx=GL_LIGHT0; lidx < GL_LIGHT0 + MaxLights; ++lidx)
 	{
+		//查询硬件灯光的状态
 		if(!glIsEnabled(lidx))
 		{
 			RequestedLights[lightIndex].HardwareLightIndex = lidx;
@@ -3748,7 +3751,7 @@ u32 COpenGLDriver::getMaximalDynamicLightAmount() const
 	return MaxLights;
 }
 
-
+//设置环境光
 //! Sets the dynamic ambient light color. The default color is
 //! (0,0,0,0) which means it is dark.
 //! \param color: New color of the ambient light.

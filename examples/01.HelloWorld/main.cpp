@@ -187,9 +187,10 @@ int main()
 	*/
 	if (node)
 	{
-		node->setMaterialFlag(EMF_LIGHTING, false);
-		node->setMD2Animation(scene::EMAT_PAIN_B);
+		node->setMaterialFlag(EMF_LIGHTING, true);
+		node->setMD2Animation(scene::EMAT_RUN);
 		node->setMaterialTexture( 0, driver->getTexture("../../media/sydney.bmp") );
+	//	node->setDebugDataVisible(EDS_BBOX_BUFFERS | EDS_NORMALS);
 	}
 
 	/*
@@ -198,6 +199,8 @@ int main()
 	approximately the place where our md2 model is.
 	*/
 	smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,5,0));
+
+	smgr->addLightSceneNode();
 
 	/*
 	Ok, now we have set up the scene, lets draw everything: We run the

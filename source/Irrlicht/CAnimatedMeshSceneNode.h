@@ -173,9 +173,10 @@ namespace scene
 		void buildFrameNr(u32 timeMs);
 		void checkJoints();
 		void beginTransition();
-
+        //模型动画上/mesh上固有的material
 		core::array<video::SMaterial> Materials;
 		core::aabbox3d<f32> Box;
+		//模型动画的mesh
 		IAnimatedMesh* Mesh;
 
 		s32 StartFrame;

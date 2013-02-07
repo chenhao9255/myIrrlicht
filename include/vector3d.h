@@ -136,6 +136,7 @@ namespace core
 
 		//! Returns squared distance from another point.
 		/** Here, the vector is interpreted as point in 3 dimensional space. */
+		//空间中亮点间的距离，少做开平方运算一次。
 		T getDistanceFromSQ(const vector3d<T>& other) const
 		{
 			return vector3d<T>(X - other.X, Y - other.Y, Z - other.Z).getLengthSQ();

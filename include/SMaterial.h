@@ -490,7 +490,8 @@ namespace video
 				return;
 			TextureLayer[i].Texture = tex;
 		}
-
+		//开关材质的各种属性
+		//例如灯光，线框等
 		//! Sets the Material flag to the given value
 		/** \param flag The flag to be set.
 		\param value The new value for the flag. */

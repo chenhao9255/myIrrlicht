@@ -811,6 +811,8 @@ namespace video
 
 		core::array<video::IImageLoader*> SurfaceLoader;
 		core::array<video::IImageWriter*> SurfaceWriter;
+		//顶点灯光，效果不好，在每个mesh的顶点上作用这个效果，颜色渐变突兀
+	   //此外还有片源（fragment）灯光，其对于每一个像素均作用灯光的效果
 		core::array<SLight> Lights;
 		core::array<SMaterialRenderer> MaterialRenderers;
 

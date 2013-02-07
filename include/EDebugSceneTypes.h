@@ -11,6 +11,7 @@ namespace scene
 {
 
 	//! An enumeration for all types of debug data for built-in scene nodes (flags)
+	//多个type可以 或 ， 从而达到混合的效果
 	enum E_DEBUG_SCENE_TYPE
 	{
 		//! No Debug Data ( Default )

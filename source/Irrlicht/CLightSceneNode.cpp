@@ -73,8 +73,9 @@ void CLightSceneNode::render()
 				break;
 		}
 	}
-
+    //在RequestedLights中增加一个灯光，并且根据灯光类型设置GL
 	DriverLightIndex = driver->addDynamicLight(LightData);
+	//开灯
 	setVisible(LightIsOn);
 }
 
