@@ -1,0 +1,12 @@
+#ÉúĞ§ÃüÁî
+#git config --global core.excludesfile ~/.gitignore
+*.obj
+*.lib
+*.log
+*.tlog
+*.res
+*.pdb
+*.idb
+IrrDebug/
+tools/
+bin/
