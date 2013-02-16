@@ -201,6 +201,7 @@ int main()
 	smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,5,0));
 
 	smgr->addLightSceneNode();
+	 
 
 	/*
 	Ok, now we have set up the scene, lets draw everything: We run the
