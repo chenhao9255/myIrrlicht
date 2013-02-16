@@ -100,6 +100,7 @@ namespace scene
 		//
 
 		//! the buffer that contains the most recent animation
+		//MD2模型中最近一帧的mesh
 		SMeshBuffer* InterpolationBuffer;
 
 		//! named animations

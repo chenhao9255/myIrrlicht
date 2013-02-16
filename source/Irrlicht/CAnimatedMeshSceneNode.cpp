@@ -42,7 +42,7 @@ CAnimatedMeshSceneNode::CAnimatedMeshSceneNode(IAnimatedMesh* mesh,
 	#ifdef _DEBUG
 	setDebugName("CAnimatedMeshSceneNode");
 	#endif
-
+	//在这个方法中，将材质从mesh中取出来，放在本类的数据成员Materials
 	setMesh(mesh);
 }
 
@@ -822,6 +822,7 @@ void CAnimatedMeshSceneNode::deserializeAttributes(io::IAttributes* in, io::SAtt
 
 //! Sets a new mesh
 void CAnimatedMeshSceneNode::setMesh(IAnimatedMesh* mesh)
+//IAnimatedMesh也是一种IMesh
 {
 	if (!mesh)
 		return; // won't set null mesh
@@ -845,11 +846,15 @@ void CAnimatedMeshSceneNode::setMesh(IAnimatedMesh* mesh)
 	{
 		Materials.clear();
 		Materials.reallocate(m->getMeshBufferCount());
-		//从模型动画中把材质取出来
+		//从模型动画中把Materials取出来，存放在Materials
 		for (u32 i=0; i<m->getMeshBufferCount(); ++i)
 		{
 			IMeshBuffer* mb = m->getMeshBuffer(i);
 			if (mb)
+				/*调用SMaterial的拷贝构造函数
+				将IAnimatedMesh中的一个Mesh中的一个IMeshBuffer中的一个Material
+				拷贝到这个CAnimatedMeshSceneNode的Material中
+				*/
 				Materials.push_back(mb->getMaterial());
 			else
 				Materials.push_back(video::SMaterial());

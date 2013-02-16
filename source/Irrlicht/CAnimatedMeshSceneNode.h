@@ -173,8 +173,9 @@ namespace scene
 		void buildFrameNr(u32 timeMs);
 		void checkJoints();
 		void beginTransition();
-        //模型动画上/mesh上固有的material
+        //从模型动画中把材质取出来，存放在Materials
 		core::array<video::SMaterial> Materials;
+		//包围盒
 		core::aabbox3d<f32> Box;
 		//模型动画的mesh
 		IAnimatedMesh* Mesh;

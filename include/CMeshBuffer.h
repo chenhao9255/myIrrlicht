@@ -278,7 +278,9 @@ namespace scene
 		E_HARDWARE_MAPPING MappingHint_Index;
 
 		//! Material for this meshbuffer.
+		//存储meshBuffer中材质
 		video::SMaterial Material;
+
 		//! Vertices of this buffer
 		//存储顶点数据，比如顶点的x,y,z
 		core::array<T> Vertices;
