@@ -1348,6 +1348,7 @@ u32 CSceneManager::registerNodeForRendering(ISceneNode* node, E_SCENE_NODE_RENDE
 
 //! This method is called just before the rendering process of the whole scene.
 //! draws all scene nodes
+//2013/2/16
 void CSceneManager::drawAll()
 {
 	if (!Driver)
