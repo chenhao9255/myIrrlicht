@@ -7,6 +7,15 @@
 *.res
 *.pdb
 *.idb
+*.exp
+*.lastbuildstate
+*.opensdf
+*.sdf
+*.suo
+
 IrrDebug/
 tools/
 bin/
+
+/lib
+/bin
