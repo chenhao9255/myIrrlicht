@@ -1466,7 +1466,7 @@ static inline u8* buffer_offset(const long offset)
 	return ((u8*)0 + offset);
 }
 
-
+//根据vertices中的点和indexList中对点的排列方式，画图形
 //! draws a vertex primitive list
 void COpenGLDriver::drawVertexPrimitiveList(const void* vertices, u32 vertexCount,
 		const void* indexList, u32 primitiveCount,
@@ -1505,6 +1505,7 @@ void COpenGLDriver::drawVertexPrimitiveList(const void* vertices, u32 vertexCoun
 			switch (vType)
 			{
 				case EVT_STANDARD:
+					//往GPU中设置vertex的颜色值，各点之间插值，以平滑着色
 					glColorPointer(colorSize, GL_UNSIGNED_BYTE, sizeof(S3DVertex), &(static_cast<const S3DVertex*>(vertices))[0].Color);
 					break;
 				case EVT_2TCOORDS:
@@ -1528,6 +1529,7 @@ void COpenGLDriver::drawVertexPrimitiveList(const void* vertices, u32 vertexCoun
 		case EVT_STANDARD:
 			if (vertices)
 			{
+				//分别通过openGL接口往GPU中设置每个vertex的属性，包括normal，UV，pos
 				glNormalPointer(GL_FLOAT, sizeof(S3DVertex), &(static_cast<const S3DVertex*>(vertices))[0].Normal);
 				glTexCoordPointer(2, GL_FLOAT, sizeof(S3DVertex), &(static_cast<const S3DVertex*>(vertices))[0].TCoords);
 				glVertexPointer(3, GL_FLOAT, sizeof(S3DVertex), &(static_cast<const S3DVertex*>(vertices))[0].Pos);
@@ -1609,7 +1611,7 @@ void COpenGLDriver::drawVertexPrimitiveList(const void* vertices, u32 vertexCoun
 			}
 			break;
 	}
-
+	//画每个vertex
 	renderArray(indexList, primitiveCount, pType, iType);
 
 	if (MultiTextureExtension)
