@@ -17,6 +17,7 @@ namespace video
 class IVideoDriver;
 class IMaterialRendererServices;
 
+//材质的基类，可以使openGL的材质，也可以是D3D的材质，也可以是用户自定义的材质
 //! Interface for material rendering.
 /** Can be used to extend the engine with new materials. Refer to
 IVideoDriver::addMaterialRenderer() for more informations on how to extend the
@@ -47,6 +48,7 @@ public:
 	fogenable.
 	\param services: Interface providing some methods for changing
 	advanced, internal states of a IVideoDriver. */
+	//向COpenGLDriver设置材质
 	virtual void OnSetMaterial(const SMaterial& material, const SMaterial& lastMaterial,
 		bool resetAllRenderstates, IMaterialRendererServices* services) {}
 
@@ -73,6 +75,7 @@ public:
 	//! Called by the IVideoDriver to unset this material.
 	/** Called during the IVideoDriver::setMaterial() call before the new
 	material will get the OnSetMaterial() call. */
+	//将上一次循环中的材质删除掉
 	virtual void OnUnsetMaterial() {}
 
 	//! Returns if the material is transparent.

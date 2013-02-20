@@ -61,6 +61,7 @@ public:
 		bool resetAllRenderstates, IMaterialRendererServices* services)
 	{
 		Driver->disableTextures(1);
+		//向COpenGLDriver中设置材质参数
 		Driver->setBasicRenderStates(material, lastMaterial, resetAllRenderstates, true);
 
 		if (resetAllRenderstates || (material.MaterialType != lastMaterial.MaterialType))

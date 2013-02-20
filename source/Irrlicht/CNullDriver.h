@@ -132,7 +132,7 @@ namespace video
 		//! Draws a 3d line.
 		virtual void draw3DLine(const core::vector3df& start,
 			const core::vector3df& end, SColor color = SColor(255,255,255,255));
-
+ 
 		//! Draws a 3d triangle.
 		virtual void draw3DTriangle(const core::triangle3df& triangle,
 			SColor color = SColor(255,255,255,255));
@@ -814,6 +814,10 @@ namespace video
 		//顶点灯光，效果不好，在每个mesh的顶点上作用这个效果，颜色渐变突兀
 	   //此外还有片源（fragment）灯光，其对于每一个像素均作用灯光的效果
 		core::array<SLight> Lights;
+
+		//材质以及材质的名称，可以是openGL的材质，可以是D3Dd的材质
+		//材质其实就是一坨参数
+		//
 		core::array<SMaterialRenderer> MaterialRenderers;
 
 		//core::array<SHWBufferLink*> HWBufferLinks;
@@ -842,8 +846,10 @@ namespace video
 		SExposedVideoData ExposedData;
 
 		io::IAttributes* DriverAttributes;
-        //存放material的容器
+      
+		//不知道是什么东西
 		SOverrideMaterial OverrideMaterial;
+		
 		SMaterial OverrideMaterial2D;
 		SMaterial InitMaterial2D;
 		bool OverrideMaterial2DEnabled;

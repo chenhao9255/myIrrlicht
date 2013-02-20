@@ -190,7 +190,7 @@ int main()
 		node->setMaterialFlag(EMF_LIGHTING, true);
 		node->setMD2Animation(scene::EMAT_RUN);
 		node->setMaterialTexture( 0, driver->getTexture("../../media/sydney.bmp") );
-	//	node->setDebugDataVisible(EDS_BBOX_BUFFERS | EDS_NORMALS);
+		node->setDebugDataVisible(EDS_BBOX_BUFFERS | EDS_NORMALS);
 	}
 
 	/*

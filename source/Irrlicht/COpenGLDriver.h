@@ -431,7 +431,8 @@ namespace video
 
 	private:
         // Bridge calls.
-        COpenGLCallBridge* BridgeCalls;
+		//openGL接口的代理类
+        COpenGLCallBridge* myOpenGLBridgeCalls;
 
 		//! clears the zbuffer and color buffer
 		void clearBuffers(bool backBuffer, bool zBuffer, bool stencilBuffer, SColor color);
@@ -489,12 +490,16 @@ namespace video
 		};
 
 		E_RENDER_MODE CurrentRenderMode;
-		//! bool to make all renderstates reset if set to true.
+		//! bool to make all render states reset if set to true.
+		//因为每一个渲染循环结束后，渲染参数保持不变，每一个渲染循环中，都要检测本次所使用的参数是否和上次一样，以提高效率
 		bool ResetRenderStates;
 		bool Transformation3DChanged;
 		u8 AntiAlias;
 
-		SMaterial Material, LastMaterial;
+		//这一个循环中要被渲染的材质
+		SMaterial Material;
+		//上一次循环中被渲染的材质
+		SMaterial LastMaterial;
 		COpenGLTexture* RenderTargetTexture;
 		core::array<video::IRenderTarget> MRTargets;
 
@@ -630,6 +635,7 @@ namespace video
 		E_DEVICE_TYPE DeviceType;
 	};
     
+	//openGL接口的代理类，设置各种参数
     //! This bridge between Irlicht pseudo OpenGL calls
     //! and true OpenGL calls.
     

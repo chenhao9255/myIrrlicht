@@ -1,21 +1,14 @@
 #…˙–ß√¸¡Ó
 #git config --global core.excludesfile ~/.gitignore
+
 *.obj
-*.lib
 *.log
 *.tlog
-*.res
-*.pdb
 *.idb
-*.exp
-*.lastbuildstate
-*.opensdf
-*.sdf
-*.suo
+*.pdb
+*.vcxproj
 
-IrrDebug/
-tools/
-bin/
+!*.h
+!*.cpp
 
-/lib
-/bin
+!*.gitignore

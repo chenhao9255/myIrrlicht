@@ -144,7 +144,8 @@ namespace video
 		"FogExp2",
 		0
 	};
-    //可被覆盖的材质，
+    //CNullDriver中保存的当前要被渲染的material，
+	//以及其能否被渲染的属性
 	struct SOverrideMaterial
 	{
 		//! The Material values

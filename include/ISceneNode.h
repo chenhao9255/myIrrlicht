@@ -422,7 +422,7 @@ namespace scene
 			return video::IdentityMaterial;
 		}
 
-
+		//一个node可以用多个material，这个方法可以被重写
 		//! Get amount of materials used by this scene node.
 		/** \return Current amount of materials of this scene node. */
 		virtual u32 getMaterialCount() const
@@ -690,6 +690,8 @@ namespace scene
 			return ESNT_UNKNOWN;
 		}
 
+		//所有的attribute都已键（string）值（valute）对的形式保存
+		//任何一种类型的attribute的继承于IAttribute
 
 		//! Writes attributes of the scene node.
 		/** Implement this to expose the attributes of your scene node

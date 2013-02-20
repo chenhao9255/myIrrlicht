@@ -46,7 +46,7 @@ struct SAttributeReadWriteOptions
 	const fschar_t* Filename;
 };
 
-
+//任何一个物体，其属性可以被组织成键（string）值（value）对，并且存放在IAttribute中的容器中。
 //! An object which is able to serialize and deserialize its attributes into an attributes object
 class IAttributeExchangingObject : virtual public IReferenceCounted
 {

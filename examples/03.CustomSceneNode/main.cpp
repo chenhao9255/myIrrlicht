@@ -52,7 +52,7 @@ class CSampleSceneNode : public scene::ISceneNode
 	The bounding box, 4 vertices, and the material of the tetraeder.
 	*/
 	core::aabbox3d<f32> Box;
-	video::S3DVertex Vertices[4];
+	video::S3DVertex Vertices[5];
 	video::SMaterial Material;
 
 	/*
@@ -70,7 +70,8 @@ public:
 	{
 		Material.Wireframe = false;
 		Material.Lighting = false;
-
+		//Material.DiffuseColor = video::SColor(255,100,100,0);
+		//一个Vertex有三种属性，position，normal，color，UV
 		Vertices[0] = video::S3DVertex(0,0,10, 1,1,0,
 				video::SColor(255,0,255,255), 0, 1);
 		Vertices[1] = video::S3DVertex(10,0,-10, 1,0,0,
@@ -79,6 +80,8 @@ public:
 				video::SColor(255,255,255,0), 1, 0);
 		Vertices[3] = video::S3DVertex(-10,0,-10, 0,0,1,
 				video::SColor(255,0,255,0), 0, 0);
+		Vertices[4] = video::S3DVertex(0,-20,0, 0,0,1,
+			video::SColor(255,0,255,0), 0, 0);
 
 	/*
 	The Irrlicht Engine needs to know the bounding box of a scene node.
@@ -126,12 +129,12 @@ public:
 	*/
 	virtual void render()
 	{
-		u16 indices[] = {	0,2,3, 2,1,3, 1,0,3, 2,0,1	};
+		u16 indices[] = {	0,2,3, 2,1,3, 1,0,3, 2,0,1, 0,4,3, 4,1,3, 4,0,1, 1,0,3};
 		video::IVideoDriver* driver = SceneManager->getVideoDriver();
 
 		driver->setMaterial(Material);
 		driver->setTransform(video::ETS_WORLD, AbsoluteTransformation);
-		driver->drawVertexPrimitiveList(&Vertices[0], 4, &indices[0], 4, video::EVT_STANDARD, scene::EPT_TRIANGLES, video::EIT_16BIT);
+		driver->drawVertexPrimitiveList(&Vertices[0], 5, &indices[0], 8, video::EVT_STANDARD, scene::EPT_TRIANGLES, video::EIT_16BIT);
 	}
 
 	/*
@@ -199,7 +202,8 @@ int main()
 	*/
 	CSampleSceneNode *myNode =
 		new CSampleSceneNode(smgr->getRootSceneNode(), smgr, 666);
-
+	
+	//myNode->setDebugDataVisible( irr::scene::EDS_BBOX_BUFFERS | irr::scene::EDS_NORMALS);
 	/*
 	To animate something in this boring scene consisting only of one
 	tetraeder, and to show that you now can use your scene node like any
