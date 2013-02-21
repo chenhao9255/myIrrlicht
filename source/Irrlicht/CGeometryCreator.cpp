@@ -338,7 +338,7 @@ IMesh* CGeometryCreator::createArrowMesh(const u32 tesselationCylinder,
 	return mesh;
 }
 
-
+//利用vertices构造一个基本类型的SMeshBuffer
 /* A sphere with proper normals and texture coords */
 IMesh* CGeometryCreator::createSphereMesh(f32 radius, u32 polyCountX, u32 polyCountY) const
 {

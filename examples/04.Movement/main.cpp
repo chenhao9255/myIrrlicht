@@ -98,7 +98,8 @@ int main()
 	if (node)
 	{
 		node->setPosition(core::vector3df(0,0,30));
-		node->setMaterialTexture(0, driver->getTexture("../../media/wall.bmp"));
+
+		node->setMaterialTexture(0, driver->getTexture("../../media/fire.bmp"));
 		node->setMaterialFlag(video::EMF_LIGHTING, false);
 	}
 
@@ -111,38 +112,39 @@ int main()
 	example. We create a cube scene node and attach a 'fly circle' scene
 	node animator to it, letting this node fly around our sphere scene node.
 	*/
-	scene::ISceneNode* n = smgr->addCubeSceneNode();
 
-	if (n)
-	{
-		n->setMaterialTexture(0, driver->getTexture("../../media/t351sml.jpg"));
-		n->setMaterialFlag(video::EMF_LIGHTING, false);
-		scene::ISceneNodeAnimator* anim =
-			smgr->createFlyCircleAnimator(core::vector3df(0,0,30), 20.0f);
-		if (anim)
-		{
-			n->addAnimator(anim);
-			anim->drop();
-		}
-	}
+// 	scene::ISceneNode* n = smgr->addCubeSceneNode();
+// 
+// 	if (n)
+// 	{
+// 		n->setMaterialTexture(0, driver->getTexture("../../media/t351sml.jpg"));
+// 		n->setMaterialFlag(video::EMF_LIGHTING, false);
+// 		scene::ISceneNodeAnimator* anim =
+// 			smgr->createFlyCircleAnimator(core::vector3df(0,0,30), 20.0f);
+// 		if (anim)
+// 		{
+// 			n->addAnimator(anim);
+// 			anim->drop();
+// 		}
+// 	}
 
 	/*
 	The last scene node we add to show possibilities of scene node animators is
 	a b3d model, which uses a 'fly straight' animator to run between to points.
 	*/
-	scene::IAnimatedMeshSceneNode* anms =
-		smgr->addAnimatedMeshSceneNode(smgr->getMesh("../../media/ninja.b3d"));
-
-	if (anms)
-	{
-		scene::ISceneNodeAnimator* anim =
-			smgr->createFlyStraightAnimator(core::vector3df(100,0,60),
-			core::vector3df(-100,0,60), 3500, true);
-		if (anim)
-		{
-			anms->addAnimator(anim);
-			anim->drop();
-		}
+// 	scene::IAnimatedMeshSceneNode* anms =
+// 		smgr->addAnimatedMeshSceneNode(smgr->getMesh("../../media/ninja.b3d"));
+// 
+// 	if (anms)
+// 	{
+// 		scene::ISceneNodeAnimator* anim =
+// 			smgr->createFlyStraightAnimator(core::vector3df(100,0,60),
+// 			core::vector3df(-100,0,60), 3500, true);
+// 		if (anim)
+// 		{
+// 			anms->addAnimator(anim);
+// 			anim->drop();
+// 		}
 
 		/*
 		To make the model look right we disable lighting, set the
@@ -156,17 +158,17 @@ int main()
 		start other animations. But a good advice is to not use
 		hardcoded frame-numbers...
 		*/
-		anms->setMaterialFlag(video::EMF_LIGHTING, false);
-
-		anms->setFrameLoop(0, 13);
-		anms->setAnimationSpeed(15); 
-		//anms->setMD2Animation(scene::EMAT_RUN);
-
-		anms->setScale(core::vector3df(2.f,2.f,2.f));
-		anms->setRotation(core::vector3df(0,-90,0));
-		anms->setMaterialTexture(0, driver->getTexture("../../media/sydney.bmp"));
-
-	}
+// 		anms->setMaterialFlag(video::EMF_LIGHTING, false);
+// 
+// 		anms->setFrameLoop(0, 13);
+// 		anms->setAnimationSpeed(15); 
+// 		//anms->setMD2Animation(scene::EMAT_RUN);
+// 
+// 		anms->setScale(core::vector3df(2.f,2.f,2.f));
+// 		anms->setRotation(core::vector3df(0,-90,0));
+// 		anms->setMaterialTexture(0, driver->getTexture("../../media/sydney.bmp"));
+//
+//	}
 
 
 	/*

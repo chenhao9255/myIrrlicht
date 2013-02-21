@@ -17,7 +17,8 @@ namespace io
 } // end namespace io
 namespace video
 {
-
+//加载图片的基类
+//不同类型的图片由不同的派生类来实现，例如CImageLoaderBMP
 //! Class which is able to create a image from a file.
 /** If you want the Irrlicht Engine be able to load textures of
 currently unsupported file formats (e.g .gif), then implement

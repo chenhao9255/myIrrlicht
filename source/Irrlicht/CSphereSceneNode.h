@@ -80,7 +80,7 @@ namespace scene
 		virtual bool removeChild(ISceneNode* child);
 
 	private:
-
+		//每一个特化的node里包含一个同名的mesh，这个mesh是由多个meshBuffer组成
 		IMesh* Mesh;
 		IShadowVolumeSceneNode* Shadow;
 		core::aabbox3d<f32> Box;

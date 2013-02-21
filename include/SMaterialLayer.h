@@ -44,6 +44,8 @@ namespace video
 			"texture_clamp_mirror_clamp_to_edge",
 			"texture_clamp_mirror_clamp_to_border", 0};
 
+
+	//一个SMaterial中有多个SMaterialLayer，其中每个SMaterialLayer中包含一个ITexture
 	//! Struct for holding material parameters which exist per texture layer
 	class SMaterialLayer
 	{

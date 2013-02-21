@@ -14,6 +14,7 @@ namespace irr
 {
 namespace scene
 {
+	//一个SMesh里可以有多个SMeshBuffer组成，例如，人体的mesh
 	//! Simple implementation of the IMesh interface.
 	struct SMesh : public IMesh
 	{

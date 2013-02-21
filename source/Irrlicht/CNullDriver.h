@@ -750,6 +750,9 @@ namespace video
 			virtual void regenerateMipMapLevels(void* mipmapData=0) {};
 			core::dimension2d<u32> size;
 		};
+
+		//一个driver中可以有多个对应的texture
+		//SSurface封装了Texture，使得texture可以排序
 		core::array<SSurface> Textures;
 
 		struct SOccQuery

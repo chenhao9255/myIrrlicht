@@ -442,7 +442,10 @@ namespace scene
 				getMaterial(i).setFlag(flag, newvalue);
 		}
 
-        //给每个材质都设置纹理
+        //给node里面的material设置texture，可以使多重纹理
+		//在一个特化的ISceneNode中，例如CSphereSceneNode，都包含这一个Mesh，
+		//CSphereSceneNode -> CMesh -> CMeshBuffer -> SMaterial 获取到material
+		//然后再SMaterial -> STextureLayer
 		//! Sets the texture of the specified layer in all materials of this scene node to the new texture.
 		/** \param textureLayer Layer of texture to be set. Must be a
 		value smaller than MATERIAL_MAX_TEXTURES.

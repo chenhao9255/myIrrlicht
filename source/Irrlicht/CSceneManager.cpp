@@ -228,6 +228,7 @@ CSceneManager::CSceneManager(video::IVideoDriver* driver, io::IFileSystem* fs,
 	CollisionManager = new CSceneCollisionManager(this, Driver);
 
 	// create geometry creator
+	//内建类型的mesh的生成器
 	GeometryCreator = new CGeometryCreator();
 
 	// add file format loaders. add the least commonly used ones first,

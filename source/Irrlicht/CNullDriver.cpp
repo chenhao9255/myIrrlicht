@@ -417,7 +417,7 @@ void CNullDriver::renameTexture(ITexture* texture, const io::path& newName)
 	Textures.sort();
 }
 
-
+//从文件系统中加载纹理（图片）
 //! loads a Texture
 ITexture* CNullDriver::getTexture(const io::path& filename)
 {
@@ -457,6 +457,7 @@ ITexture* CNullDriver::getTexture(const io::path& filename)
 
 		if (texture)
 		{
+			//把当前texture保存在driver中
 			addTexture(texture);
 			texture->drop(); // drop it because we created it, one grab too much
 		}
@@ -504,11 +505,13 @@ ITexture* CNullDriver::getTexture(io::IReadFile* file)
 video::ITexture* CNullDriver::loadTextureFromFile(io::IReadFile* file, const io::path& hashName )
 {
 	ITexture* texture = 0;
+	//加载图片
 	IImage* image = createImageFromFile(file);
 
 	if (image)
 	{
 		// create texture from surface
+		//生成一个平台相关的Texture，例如，COpenGLTexture
 		texture = createDeviceDependentTexture(image, hashName.size() ? hashName : file->getFileName() );
 		os::Printer::log("Loaded texture", file->getFileName());
 		image->drop();
@@ -595,7 +598,8 @@ ITexture* CNullDriver::addTexture(const core::dimension2d<u32>& size,
 }
 
 
-
+//需要被重写的函数
+//不同的派生类的driver，生成其对应的texture
 //! returns a device dependent texture from a software surface (IImage)
 //! THIS METHOD HAS TO BE OVERRIDDEN BY DERIVED DRIVERS WITH OWN TEXTURES
 ITexture* CNullDriver::createDeviceDependentTexture(IImage* surface, const io::path& name, void* mipmapData)
@@ -1331,6 +1335,7 @@ IImage* CNullDriver::createImageFromFile(io::IReadFile* file)
 		{
 			// reset file position which might have changed due to previous loadImage calls
 			file->seek(0);
+			//加载图片
 			image = SurfaceLoader[i]->loadImage(file);
 			if (image)
 				return image;

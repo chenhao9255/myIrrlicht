@@ -19,7 +19,7 @@ namespace video
 
 namespace scene
 {
-
+//生成各种内置类型的mesh，包括sphere，cude等
 //! Helper class for creating geometry on the fly.
 /** You can get an instance of this class through ISceneManager::getGeometryCreator() */
 class IGeometryCreator : public IReferenceCounted

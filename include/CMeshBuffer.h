@@ -13,6 +13,13 @@ namespace irr
 namespace scene
 {
 	//! Template implementation of the IMeshBuffer interface
+	//CMeshBuffer是很基础的一个类，它是描述mesh模型的数据结构
+	//一个array的vertices
+	//一个array的indices
+	//material
+	//AABBbox
+	//hardware mapping hint
+	//其中SMeshBuffer是一种特化的CMeshBuffer，其vertex类型为S3DVertex
 	template <class T>
 	class CMeshBuffer : public IMeshBuffer
 	{
