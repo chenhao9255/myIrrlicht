@@ -38,6 +38,7 @@ public:
     
     virtual bool OnRender(IMaterialRendererServices* service, E_VERTEX_TYPE vtxtype)
     {
+	    //ÉèÖÃopenGL matrial µÄ²ÄÖÊ
         Driver->setTextureRenderStates(Driver->getCurrentMaterial(), false, true);
         
         return true;
