@@ -633,7 +633,7 @@ COpenGLDriver::~COpenGLDriver()
 
 	deleteMaterialRenders();
 
-	CurrentTexture.clear();
+	CurrentTextureCache.clear();
 	// I get a blue screen on my laptop, when I do not delete the
 	// textures manually before releasing the dc. Oh how I love this.
 	deleteAllTextures();
@@ -682,7 +682,7 @@ bool COpenGLDriver::genericDriverInit()
 	}
 
 	u32 i;
-	CurrentTexture.clear();
+	CurrentTextureCache.clear();
 	// load extensions
 	initExtensions(Params.Stencilbuffer);
     
@@ -1465,7 +1465,7 @@ static inline u8* buffer_offset(const long offset)
 {
 	return ((u8*)0 + offset);
 }
-
+//一个很基础的方法，所有的mesh都要通过这个方法画
 //根据vertices中的点和indexList中对点的排列方式，画图形
 //! draws a vertex primitive list
 void COpenGLDriver::drawVertexPrimitiveList(const void* vertices, u32 vertexCount,
@@ -1537,13 +1537,14 @@ void COpenGLDriver::drawVertexPrimitiveList(const void* vertices, u32 vertexCoun
 			}
 			else
 			{
+				//设置点的四个属性
 				glNormalPointer(GL_FLOAT, sizeof(S3DVertex), buffer_offset(12));
 				glColorPointer(colorSize, GL_UNSIGNED_BYTE, sizeof(S3DVertex), buffer_offset(24));
 				glTexCoordPointer(2, GL_FLOAT, sizeof(S3DVertex), buffer_offset(28));
 				glVertexPointer(3, GL_FLOAT, sizeof(S3DVertex), 0);
 			}
 
-			if (MultiTextureExtension && CurrentTexture[1])
+			if (MultiTextureExtension && CurrentTextureCache[1])
 			{
 				myOpenGLBridgeCalls->setClientActiveTexture(GL_TEXTURE1_ARB);
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -1622,7 +1623,7 @@ void COpenGLDriver::drawVertexPrimitiveList(const void* vertices, u32 vertexCoun
 			myOpenGLBridgeCalls->setClientActiveTexture(GL_TEXTURE2_ARB);
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		}
-		if ((vType!=EVT_STANDARD) || CurrentTexture[1])
+		if ((vType!=EVT_STANDARD) || CurrentTextureCache[1])
 		{
 			myOpenGLBridgeCalls->setClientActiveTexture(GL_TEXTURE1_ARB);
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -1863,7 +1864,7 @@ void COpenGLDriver::draw2DVertexPrimitiveList(const void* vertices, u32 vertexCo
 				glVertexPointer(2, GL_FLOAT, sizeof(S3DVertex), 0);
 			}
 
-			if (MultiTextureExtension && CurrentTexture[1])
+			if (MultiTextureExtension && CurrentTextureCache[1])
 			{
 				myOpenGLBridgeCalls->setClientActiveTexture(GL_TEXTURE1_ARB);
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -1916,7 +1917,7 @@ void COpenGLDriver::draw2DVertexPrimitiveList(const void* vertices, u32 vertexCo
 
 	if (MultiTextureExtension)
 	{
-		if ((vType!=EVT_STANDARD) || CurrentTexture[1])
+		if ((vType!=EVT_STANDARD) || CurrentTextureCache[1])
 		{
 			myOpenGLBridgeCalls->setClientActiveTexture(GL_TEXTURE1_ARB);
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -2579,16 +2580,16 @@ bool COpenGLDriver::setActiveTexture(u32 stage, const video::ITexture* texture)
 	if (stage >= MaxSupportedTextures)
 		return false;
 
-	if (CurrentTexture[stage]==texture)
+	if (CurrentTextureCache[stage]==texture)
 		return true;
 
-	CurrentTexture.set(stage,texture);
+	CurrentTextureCache.set(stage,texture);
 
 	if (!texture)
 		return true;
 	else if (texture->getDriverType() != EDT_OPENGL)
 	{
-		CurrentTexture.set(stage, 0);
+		CurrentTextureCache.set(stage, 0);
 		os::Printer::log("Fatal Error: Tried to set a texture not owned by this driver.", ELL_ERROR);
 		return false;
 	}
@@ -2642,6 +2643,7 @@ inline void COpenGLDriver::getGLTextureMatrix(GLfloat *o, const core::matrix4& m
 	o[15] = 1.f;
 }
 
+//生成纹理
 //不同的driver生成其对应的texture
 //! returns a device dependent texture from a software surface (IImage)
 video::ITexture* COpenGLDriver::createDeviceDependentTexture(IImage* surface, const io::path& name, void* mipmapData)
@@ -2698,7 +2700,8 @@ bool COpenGLDriver::testGLError()
 #endif
 }
 
-
+//通过调用不同的MaterialRenderer子类(实现了虚方法)，从而设置相关的渲染参数
+//例如COpenGLMaterialRenderer_SOLID中就通过driver->setBasicRenderStates设置渲染参数
 //! sets the needed renderstates
 void COpenGLDriver::setRenderStates3DMode()
 {
@@ -2741,7 +2744,9 @@ void COpenGLDriver::setRenderStates3DMode()
 		LastMaterial = Material;
 		ResetRenderStates = false;
 	}
-
+	
+	//调用COpenGLMaterialRenderer中的OnRender方法，
+	//其默认动作是利用driver中当前的material设置texture
 	if (static_cast<u32>(Material.MaterialType) < MaterialRenderers.size())
 		MaterialRenderers[Material.MaterialType].Renderer->OnRender(this, video::EVT_STANDARD);
 
@@ -3272,7 +3277,8 @@ void COpenGLDriver::setBasicRenderStates(const SMaterial& material, const SMater
 	// be sure to leave in texture stage 0
     myOpenGLBridgeCalls->setActiveTexture(GL_TEXTURE0_ARB);
 }
-    
+
+//设置当前渲染的texture
 //! Compare in SMaterial doesn't check texture parameters, so we should call this on each OnRender call.
 void COpenGLDriver::setTextureRenderStates(const SMaterial& material, bool resetAllRenderstates, bool fixedPipeline)
 {
@@ -3280,14 +3286,14 @@ void COpenGLDriver::setTextureRenderStates(const SMaterial& material, bool reset
 
 	for (s32 i = MaxTextureUnits-1; i>= 0; --i)
 	{
-		const COpenGLTexture* tmpTexture = static_cast<const COpenGLTexture*>(CurrentTexture[i]);
+		const COpenGLTexture* tmpTexture = static_cast<const COpenGLTexture*>(CurrentTextureCache[i]);
 
 		if(fixedPipeline)
 		{
 			if (i>0 && !MultiTextureExtension)
 				break;
 
-			if (!CurrentTexture[i])
+			if (!CurrentTextureCache[i])
 			{
 				myOpenGLBridgeCalls->setTexture(i, fixedPipeline);
 
@@ -3302,7 +3308,7 @@ void COpenGLDriver::setTextureRenderStates(const SMaterial& material, bool reset
 		}
 		else
 		{
-			if (CurrentTexture[i])
+			if (CurrentTextureCache[i])
 			{
 				myOpenGLBridgeCalls->setTexture(i, fixedPipeline);
 			}
@@ -3362,7 +3368,7 @@ void COpenGLDriver::setTextureRenderStates(const SMaterial& material, bool reset
 			tmpTexture->getStatesCache().TrilinearFilter = material.TextureLayer[i].TrilinearFilter;
 		}
 
-		if (material.UseMipMaps && CurrentTexture[i]->hasMipMaps())
+		if (material.UseMipMaps && CurrentTextureCache[i]->hasMipMaps())
 		{
 			if(!tmpTexture->getStatesCache().IsCached || material.TextureLayer[i].BilinearFilter != tmpTexture->getStatesCache().BilinearFilter ||
 				material.TextureLayer[i].TrilinearFilter != tmpTexture->getStatesCache().TrilinearFilter || !tmpTexture->getStatesCache().MipMapStatus)
@@ -3499,7 +3505,7 @@ void COpenGLDriver::setRenderStates2DMode(bool alpha, bool texture, bool alphaCh
         else
             setTextureRenderStates(InitMaterial2D, false, true);
         
-		Material.setTexture(0, const_cast<video::ITexture*>(CurrentTexture[0]));
+		Material.setTexture(0, const_cast<video::ITexture*>(CurrentTextureCache[0]));
 		setTransform(ETS_TEXTURE_0, core::IdentityMatrix);
 		// Due to the transformation change, the previous line would call a reset each frame
 		// but we can safely reset the variable as it was false before
@@ -4094,7 +4100,7 @@ void COpenGLDriver::removeTexture(ITexture* texture)
 
 	CNullDriver::removeTexture(texture);
 	// Remove this texture from CurrentTexture as well
-	CurrentTexture.remove(texture);
+	CurrentTextureCache.remove(texture);
 }
 
 
@@ -5242,22 +5248,22 @@ void COpenGLCallBridge::setTexture(u32 stage, bool fixedPipeline)
 {
     if (stage < MATERIAL_MAX_TEXTURES)
     {
-        if((fixedPipeline && TextureFixedPipeline[stage] != fixedPipeline) || Texture[stage] != Driver->CurrentTexture[stage])
+        if((fixedPipeline && TextureFixedPipeline[stage] != fixedPipeline) || Texture[stage] != Driver->CurrentTextureCache[stage])
         {
             setActiveTexture(GL_TEXTURE0_ARB + stage);
 
-            if(Driver->CurrentTexture[stage])
+            if(Driver->CurrentTextureCache[stage])
             {
                 if(fixedPipeline)
                     glEnable(GL_TEXTURE_2D);
 
-                glBindTexture(GL_TEXTURE_2D, static_cast<const COpenGLTexture*>(Driver->CurrentTexture[stage])->getOpenGLTextureName());
+                glBindTexture(GL_TEXTURE_2D, static_cast<const COpenGLTexture*>(Driver->CurrentTextureCache[stage])->getOpenGLTextureName());
             }
             else if(fixedPipeline)
                 glDisable(GL_TEXTURE_2D);
                 
             TextureFixedPipeline[stage] = fixedPipeline;
-            Texture[stage] = Driver->CurrentTexture[stage];
+            Texture[stage] = Driver->CurrentTextureCache[stage];
         }
     }
 }
