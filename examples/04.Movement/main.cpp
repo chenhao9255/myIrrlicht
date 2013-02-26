@@ -74,6 +74,9 @@ int main()
 	video::E_DRIVER_TYPE driverType=driverChoiceConsole();
 	if (driverType==video::EDT_COUNT)
 		return 1;
+	
+	//在createDevice的同时将用户自定义的MyEventReceiver设置到device中
+	//针对相同的接口IEventReceiver编程
 
 	// create device
 	MyEventReceiver receiver;

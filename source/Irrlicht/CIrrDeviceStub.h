@@ -155,6 +155,7 @@ namespace irr
 		scene::ISceneManager* SceneManager;
 		ITimer* Timer;
 		gui::ICursorControl* CursorControl;
+		//事件的接口，重写onEvent方法。
 		IEventReceiver* UserReceiver;
 		CLogger* Logger;
 		IOSOperator* Operator;

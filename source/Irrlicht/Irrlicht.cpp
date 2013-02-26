@@ -59,9 +59,11 @@ namespace irr
 		p.Vsync = vsync;
 		p.EventReceiver = res;
 
+		//根据上下文环境（宏）初始化Device
 		return createDeviceEx(p);
 	}
-
+	//C语言的链接方式，不根据参数等信息重载函数名
+	//实现C++与C及其它语言的混合编程
 	extern "C" IRRLICHT_API IrrlichtDevice* IRRCALLCONV createDeviceEx(const SIrrlichtCreationParameters& params)
 	{
 
