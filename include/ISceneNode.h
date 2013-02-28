@@ -37,6 +37,7 @@ namespace scene
 	example easily possible to attach a light to a moving car, or to place
 	a walking character on a moving platform on a moving ship.
 	*/
+
 	class ISceneNode : virtual public io::IAttributeExchangingObject
 	{
 	public:
@@ -441,6 +442,7 @@ namespace scene
 			for (u32 i=0; i<getMaterialCount(); ++i)
 				getMaterial(i).setFlag(flag, newvalue);
 		}
+
 
         //给node里面的material设置texture，可以使多重纹理
 		//在一个特化的ISceneNode中，例如CSphereSceneNode，都包含这一个Mesh，

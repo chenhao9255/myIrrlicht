@@ -26,6 +26,7 @@ public:
 	{
 	}
 
+
 	//! On set material method for shader based materials
 	virtual void OnSetBaseMaterial(const SMaterial& material)
 	{
