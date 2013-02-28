@@ -38,6 +38,7 @@ namespace scene
 	a walking character on a moving platform on a moving ship.
 	*/
 
+
 	class ISceneNode : virtual public io::IAttributeExchangingObject
 	{
 	public:
