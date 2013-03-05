@@ -1375,6 +1375,8 @@ void CSceneManager::drawAll()
 	Driver->setAllowZWriteOnTransparent(Parameters->getAttributeAsBool(ALLOW_ZWRITE_ON_TRANSPARENT));
 
 	// do animations and other stuff.
+	//CSceneManager继承于ISceneNode，它其实是一个最基础的根节点。
+	//在每次循环中，调用子节点的OnAnimate方法。
 	OnAnimate(os::Timer::getTime());
 
 	/*!

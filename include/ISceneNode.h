@@ -107,12 +107,13 @@ namespace scene
 		child scene nodes here. This method will be called once per frame, independent
 		of whether the scene node is visible or not.
 		\param timeMs Current time in milliseconds. */
+		//
 		virtual void OnAnimate(u32 timeMs)
 		{
 			if (IsVisible)
 			{
 				// animate this node with all animators
-
+                //调用子节点
 				ISceneNodeAnimatorList::Iterator ait = Animators.begin();
 				while (ait != Animators.end())
 					{
