@@ -413,7 +413,7 @@ namespace scene
 		/** To get the amount of materials used by this scene node, use
 		getMaterialCount(). This function is needed for inserting the
 		node into the scene hierarchy at an optimal position for
-		minimizing renderstate changes, but can also be used to
+		minimizing render state changes, but can also be used to
 		directly modify the material of a scene node.
 		\param num Zero based index. The maximal value is getMaterialCount() - 1.
 		\return The material at that index. */
@@ -764,7 +764,10 @@ namespace scene
 
 		//! Retrieve the scene manager for this node.
 		/** \return The node's scene manager. */
-		virtual ISceneManager* getSceneManager(void) const { return SceneManager; }
+		virtual ISceneManager* getSceneManager(void) const
+		{
+			return SceneManager; 
+		}
 
 	protected:
 

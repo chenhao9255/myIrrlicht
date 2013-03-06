@@ -113,20 +113,20 @@ int main()
 	node animator to it, letting this node fly around our sphere scene node.
 	*/
 
-// 	scene::ISceneNode* n = smgr->addCubeSceneNode();
-// 
-// 	if (n)
-// 	{
-// 		n->setMaterialTexture(0, driver->getTexture("../../media/t351sml.jpg"));
-// 		n->setMaterialFlag(video::EMF_LIGHTING, false);
-// 		scene::ISceneNodeAnimator* anim =
-// 			smgr->createFlyCircleAnimator(core::vector3df(0,0,30), 20.0f);
-// 		if (anim)
-// 		{
-// 			n->addAnimator(anim);
-// 			anim->drop();
-// 		}
-// 	}
+	scene::ISceneNode* n = smgr->addCubeSceneNode();
+
+	if (n)
+	{
+		n->setMaterialTexture(0, driver->getTexture("../../media/t351sml.jpg"));
+		n->setMaterialFlag(video::EMF_LIGHTING, false);
+		scene::ISceneNodeAnimator* anim =
+			smgr->createFlyCircleAnimator(core::vector3df(0,0,30), 20.0f);
+		if (anim)
+		{
+			n->addAnimator(anim);
+			anim->drop();
+		}
+	}
 
 	/*
 	The last scene node we add to show possibilities of scene node animators is
