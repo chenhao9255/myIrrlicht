@@ -402,7 +402,7 @@ IAnimatedMesh* CSceneManager::getMesh(const io::path& filename)
 		{
 			// reset file to avoid side effects of previous calls to createMesh
 			file->seek(0);
-			msh = MeshLoaderList[i]->createMesh(file);
+			IAnimatedMesh * msh = MeshLoaderList[i]->createMesh(file);
 			if (msh)
 			{
 				MeshCache->addMesh(filename, msh);
@@ -1162,7 +1162,7 @@ const core::aabbox3d<f32>& CSceneManager::getBoundingBox() const
 	return *((core::aabbox3d<f32>*)0);
 }
 
-
+//根据四种视景体裁剪方法，判断这个node是否被裁剪
 //! returns if node is culled
 bool CSceneManager::isCulled(const ISceneNode* node) const
 {
@@ -1293,6 +1293,8 @@ u32 CSceneManager::registerNodeForRendering(ISceneNode* node, E_SCENE_NODE_RENDE
 		}
 		break;
 	case ESNRP_AUTOMATIC:
+		//判断当前节点是否被裁剪
+		//将没有被裁剪的node加入渲染队列
 		if (!isCulled(node))
 		{
 			const u32 count = node->getMaterialCount();

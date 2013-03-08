@@ -1,3 +1,27 @@
+/*
+需要看的知识点
+1.   SceneManager
+2.   IAnimatedMesh，IMeshCache
+3.   IVideoDriver
+4.   FileSystem
+5.   GUIEnvironment
+6.   ICursorControl
+7.   LightManager
+8	 GeometryCreator
+9.   IMeshLoader
+10. ISceneNodeFactory
+11. ISceneNodeAnimatorFactory
+12. IEventReceiver
+13.ISceneNodeAnimatorFinishing
+*/
+
+
+
+
+
+
+
+
 /** Example 004 Movement
 
 This Tutorial shows how to move and animate SceneNodes. The
