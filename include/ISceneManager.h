@@ -49,6 +49,14 @@ namespace video
 
 namespace scene
 {
+// 	All scene nodes are being rendered in a specific order.
+// 		First lights, cameras, sky boxes, solid geometry, and then transparent
+// 		stuff. During the rendering process, scene nodes may want to know what the scene
+// 		manager is rendering currently, because for example they registered for rendering
+// 		twice, once for transparent geometry and once for solid. When knowing what rendering
+// 		pass currently is active they can render the correct part of their geometry
+
+
 	//所谓render pass指的是一次渲染的过程，其利用材质和纹理来渲染效果。render pass是一个过程。每一帧里可以有无数个render pass。
 	//但是pass越多，效率越低。
 	//A render pass creates layer of a scene that can be composited with any other passes to create a complete image. 
@@ -1520,7 +1528,7 @@ namespace scene
 		input event in this new scene manager, for example for FPS
 		cameras, you'll need to forward input to this manually: Just
 		implement an IEventReceiver and call
-		yourNewSceneManager->postEventFromUser(), and return true so
+		your New SceneManager->postEventFromUser(), and return true so
 		that the original scene manager doesn't get the event.
 		Otherwise, all input will go to the main scene manager
 		automatically.
