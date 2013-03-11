@@ -639,7 +639,7 @@ namespace scene
 		//! Mesh cache
 		IMeshCache* MeshCache;
     
-		//当前的渲染分类
+		//当前的渲染的node的种类
 		E_SCENE_NODE_RENDER_PASS CurrentRendertime;
 
 		//! An optional callbacks manager to allow the user app finer control

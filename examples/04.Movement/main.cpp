@@ -1,3 +1,27 @@
+/*
+需要看的知识点
+1.   SceneManager
+2.   IAnimatedMesh，IMeshCache
+3.   IVideoDriver
+4.   FileSystem
+5.   GUIEnvironment
+6.   ICursorControl
+7.   LightManager
+8	 GeometryCreator
+9.   IMeshLoader
+10. ISceneNodeFactory
+11. ISceneNodeAnimatorFactory
+12. IEventReceiver
+13.ISceneNodeAnimatorFinishing
+*/
+
+
+
+
+
+
+
+
 /** Example 004 Movement
 
 This Tutorial shows how to move and animate SceneNodes. The
@@ -5,6 +29,8 @@ basic concept of SceneNodeAnimators is shown as well as manual
 movement of nodes using the keyboard.  We'll demonstrate framerate
 independent movement, which means moving by an amount dependent
 on the duration of the last run of the Irrlicht loop.
+
+
 
 Example 19.MouseAndJoystick shows how to handle those kinds of input.
 
@@ -74,6 +100,9 @@ int main()
 	video::E_DRIVER_TYPE driverType=driverChoiceConsole();
 	if (driverType==video::EDT_COUNT)
 		return 1;
+	
+	//在createDevice的同时将用户自定义的MyEventReceiver设置到device中
+	//针对相同的接口IEventReceiver编程
 
 	// create device
 	MyEventReceiver receiver;
@@ -113,6 +142,7 @@ int main()
 	node animator to it, letting this node fly around our sphere scene node.
 	*/
 
+
 	scene::ISceneNode* n = smgr->addCubeSceneNode();
 
 	if (n)
@@ -127,6 +157,22 @@ int main()
 			anim->drop();
 		}
 	}
+
+ 	n = smgr->addCubeSceneNode();
+ 
+ 	if (n)
+ 	{
+ 		n->setMaterialTexture(0, driver->getTexture("../../media/t351sml.jpg"));
+ 		n->setMaterialFlag(video::EMF_LIGHTING, false);
+ 		scene::ISceneNodeAnimator* anim =
+			smgr->createFlyStraightAnimator(core::vector3df(100,0,60),
+					core::vector3df(-100,0,60), 3500, true);
+ 		if (anim)
+ 		{
+ 			n->addAnimator(anim);
+ 			anim->drop();
+ 		}
+ 	}
 
 	/*
 	The last scene node we add to show possibilities of scene node animators is
@@ -145,7 +191,7 @@ int main()
 // 			anms->addAnimator(anim);
 // 			anim->drop();
 // 		}
-
+// 	}
 		/*
 		To make the model look right we disable lighting, set the
 		frames between which the animation should loop, rotate the

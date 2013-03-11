@@ -458,6 +458,8 @@ ITexture* CNullDriver::getTexture(const io::path& filename)
 		if (texture)
 		{
 			//把当前texture保存在driver中
+			//所有加载的texture都要addTexture，以便于driver管理
+			//但是在渲染时，driver还是用的node中的meshbuffer中的material中的纹理
 			addTexture(texture);
 			texture->drop(); // drop it because we created it, one grab too much
 		}
@@ -471,7 +473,6 @@ ITexture* CNullDriver::getTexture(const io::path& filename)
 		return 0;
 	}
 }
-
 
 //! loads a Texture
 ITexture* CNullDriver::getTexture(io::IReadFile* file)
@@ -511,6 +512,7 @@ video::ITexture* CNullDriver::loadTextureFromFile(io::IReadFile* file, const io:
 	if (image)
 	{
 		// create texture from surface
+		//生成纹理
 		//生成一个平台相关的Texture，例如，COpenGLTexture
 		texture = createDeviceDependentTexture(image, hashName.size() ? hashName : file->getFileName() );
 		os::Printer::log("Loaded texture", file->getFileName());
@@ -1582,7 +1584,7 @@ void CNullDriver::getFog(SColor& color, E_FOG_TYPE& fogType, f32& start, f32& en
 	pixelFog = PixelFog;
 	rangeFog = RangeFog;
 }
-
+//画模型
 //! Draws a mesh buffer
 void CNullDriver::drawMeshBuffer(const scene::IMeshBuffer* mb)
 {

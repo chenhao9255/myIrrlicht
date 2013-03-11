@@ -13,7 +13,7 @@
 namespace irr
 {
 	class IEventReceiver;
-
+	//初始化Device的参数类，封装了一大坨参数
 	//! Structure for holding Irrlicht Device creation parameters.
 	/** This structure is used in the createDeviceEx() function. */
 	struct SIrrlichtCreationParameters

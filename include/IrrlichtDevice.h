@@ -34,6 +34,7 @@ namespace irr
 		class ISceneManager;
 	} // end namespace scene
 
+	//所有平台Device的基类
 	//! The Irrlicht device. You can create it with createDevice() or createDeviceEx().
 	/** This is the most important class of the Irrlicht Engine. You can
 	access everything in the engine if you have a pointer to an instance of

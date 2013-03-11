@@ -26,6 +26,7 @@ public:
 	{
 	}
 
+
 	//! On set material method for shader based materials
 	virtual void OnSetBaseMaterial(const SMaterial& material)
 	{
@@ -38,6 +39,7 @@ public:
     
     virtual bool OnRender(IMaterialRendererServices* service, E_VERTEX_TYPE vtxtype)
     {
+	    //ÉèÖÃopenGL matrial µÄ²ÄÖÊ
         Driver->setTextureRenderStates(Driver->getCurrentMaterial(), false, true);
         
         return true;

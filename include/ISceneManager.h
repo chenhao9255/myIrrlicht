@@ -49,6 +49,7 @@ namespace video
 
 namespace scene
 {
+
 // 	All scene nodes are being rendered in a specific order.
 // 		First lights, cameras, sky boxes, solid geometry, and then transparent
 // 		stuff. During the rendering process, scene nodes may want to know what the scene
@@ -62,7 +63,10 @@ namespace scene
 	//A render pass creates layer of a scene that can be composited with any other passes to create a complete image. 
 	//Passes also allow you to quickly re-render a single layer without re-rendering the entire scene
 
+
 	//而这里的SCENE_NODE_RENDER_PASS是场景node的一个固有属性，其将node分类，提供默认的渲染排序
+	//每个node根据其E_SCENE_NODE_RENDER_PASS的类型，通过registerNodeForRendering方法，将自身加入到
+	//CSceneManager的渲染list中
 	//! Enumeration for render passes.
 	/** A parameter passed to the registerNodeForRendering() method of the ISceneManager,
 	specifying when the node wants to be drawn in relation to the other nodes. */

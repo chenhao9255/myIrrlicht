@@ -479,7 +479,7 @@ namespace video
 		{
 			return i < MATERIAL_MAX_TEXTURES ? TextureLayer[i].Texture : 0;
 		}
-
+	//
 		//! Sets the i-th texture
 		/** If i>=MATERIAL_MAX_TEXTURES this setting will be ignored.
 		\param i The desired level.

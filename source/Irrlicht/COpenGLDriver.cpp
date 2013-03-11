@@ -1465,7 +1465,7 @@ static inline u8* buffer_offset(const long offset)
 {
 	return ((u8*)0 + offset);
 }
-
+//一个很基础的方法，所有的mesh都要通过这个方法画
 //根据vertices中的点和indexList中对点的排列方式，画图形
 //! draws a vertex primitive list
 void COpenGLDriver::drawVertexPrimitiveList(const void* vertices, u32 vertexCount,
@@ -1537,6 +1537,7 @@ void COpenGLDriver::drawVertexPrimitiveList(const void* vertices, u32 vertexCoun
 			}
 			else
 			{
+				//设置点的四个属性
 				glNormalPointer(GL_FLOAT, sizeof(S3DVertex), buffer_offset(12));
 				glColorPointer(colorSize, GL_UNSIGNED_BYTE, sizeof(S3DVertex), buffer_offset(24));
 				glTexCoordPointer(2, GL_FLOAT, sizeof(S3DVertex), buffer_offset(28));
@@ -2642,6 +2643,7 @@ inline void COpenGLDriver::getGLTextureMatrix(GLfloat *o, const core::matrix4& m
 	o[15] = 1.f;
 }
 
+//生成纹理
 //不同的driver生成其对应的texture
 //! returns a device dependent texture from a software surface (IImage)
 video::ITexture* COpenGLDriver::createDeviceDependentTexture(IImage* surface, const io::path& name, void* mipmapData)
@@ -2698,7 +2700,8 @@ bool COpenGLDriver::testGLError()
 #endif
 }
 
-
+//通过调用不同的MaterialRenderer子类(实现了虚方法)，从而设置相关的渲染参数
+//例如COpenGLMaterialRenderer_SOLID中就通过driver->setBasicRenderStates设置渲染参数
 //! sets the needed renderstates
 void COpenGLDriver::setRenderStates3DMode()
 {
@@ -2741,7 +2744,9 @@ void COpenGLDriver::setRenderStates3DMode()
 		LastMaterial = Material;
 		ResetRenderStates = false;
 	}
-
+	
+	//调用COpenGLMaterialRenderer中的OnRender方法，
+	//其默认动作是利用driver中当前的material设置texture
 	if (static_cast<u32>(Material.MaterialType) < MaterialRenderers.size())
 		MaterialRenderers[Material.MaterialType].Renderer->OnRender(this, video::EVT_STANDARD);
 
@@ -3272,7 +3277,8 @@ void COpenGLDriver::setBasicRenderStates(const SMaterial& material, const SMater
 	// be sure to leave in texture stage 0
     myOpenGLBridgeCalls->setActiveTexture(GL_TEXTURE0_ARB);
 }
-    
+
+//设置当前渲染的texture
 //! Compare in SMaterial doesn't check texture parameters, so we should call this on each OnRender call.
 void COpenGLDriver::setTextureRenderStates(const SMaterial& material, bool resetAllRenderstates, bool fixedPipeline)
 {

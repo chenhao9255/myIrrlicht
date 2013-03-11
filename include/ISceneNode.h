@@ -37,6 +37,8 @@ namespace scene
 	example easily possible to attach a light to a moving car, or to place
 	a walking character on a moving platform on a moving ship.
 	*/
+
+
 	class ISceneNode : virtual public io::IAttributeExchangingObject
 	{
 	public:
@@ -105,12 +107,13 @@ namespace scene
 		child scene nodes here. This method will be called once per frame, independent
 		of whether the scene node is visible or not.
 		\param timeMs Current time in milliseconds. */
+		//
 		virtual void OnAnimate(u32 timeMs)
 		{
 			if (IsVisible)
 			{
 				// animate this node with all animators
-
+                //调用子节点
 				ISceneNodeAnimatorList::Iterator ait = Animators.begin();
 				while (ait != Animators.end())
 					{
@@ -442,6 +445,7 @@ namespace scene
 				getMaterial(i).setFlag(flag, newvalue);
 		}
 
+
         //给node里面的material设置texture，可以使多重纹理
 		//在一个特化的ISceneNode中，例如CSphereSceneNode，都包含这一个Mesh，
 		//CSphereSceneNode -> CMesh -> CMeshBuffer -> SMaterial 获取到material
@@ -450,6 +454,7 @@ namespace scene
 		/** \param textureLayer Layer of texture to be set. Must be a
 		value smaller than MATERIAL_MAX_TEXTURES.
 		\param texture New texture to be used. */
+
 		void setMaterialTexture(u32 textureLayer, video::ITexture* texture)
 		{
 			if (textureLayer >= video::MATERIAL_MAX_TEXTURES)

@@ -729,7 +729,7 @@ namespace video
 				return Surface->getName() < other.Surface->getName();
 			}
 		};
-
+		//封装IMaterialRenderer
 		struct SMaterialRenderer
 		{
 			core::stringc Name;
@@ -751,7 +751,8 @@ namespace video
 			core::dimension2d<u32> size;
 		};
 
-		//一个driver中可以有多个对应的texture
+		//driver中封装了所有加载的texture，以便于driver的管理
+		//但是每当渲染时，其使用的纹理是node中保存的纹理
 		//SSurface封装了Texture，使得texture可以排序
 		core::array<SSurface> Textures;
 
