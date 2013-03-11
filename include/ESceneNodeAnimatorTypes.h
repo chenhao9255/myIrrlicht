@@ -9,7 +9,7 @@ namespace irr
 {
 namespace scene
 {
-
+	//枚举所有node的动画类型
 	//! An enumeration for all types of built-in scene node animators
 	enum ESCENE_NODE_ANIMATOR_TYPE
 	{

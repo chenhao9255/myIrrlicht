@@ -18,6 +18,14 @@ namespace scene
 	class ISceneNodeAnimator;
 	class ISceneManager;
 	
+	/*
+	  和ISceneNodeFactory的职能很相似。
+	  一个很经典的工厂类型。
+	  通过代理ISceneManager指针，创建出一个ISceneNodeAnimator，并且add一个ISceneNode中.
+	  其缺点也很明显，可以直接将构建ISceneNodeAnimator的代码写到createSceneNodeAnimator的switch语句中
+	  从而彻底将构建动画对象的方法从CSceneManager中解耦出来
+	*/
+	
 	//!	Interface making it possible to dynamicly create scene nodes animators 
 	class CDefaultSceneNodeAnimatorFactory : public ISceneNodeAnimatorFactory
 	{

@@ -15,7 +15,18 @@ namespace scene
 {
 	class ISceneNode;
 	class ISceneManager;
+	/*一个典型的Abstract Factory模式
+	  将创建不同种类的node的方法抽象到CDefaultSceneNodeFactory中
+      通过addSceneNode()方法的参数来判断创建何种类型的node,针对所有node的基类ISceneNode编程
+	  充分体现了“programming to interface”
+	 
+	  而ISceneNodeFactory提供了抽象的工厂类的接口，只要派生这个接口，就能实现用户自定义的node。
 	
+	 addSceneNode是通过代理Manager指针，调用各个创建node的方法。这也说明所有的创建node的方法，例如addMeshSceneNode（）
+	 都要在CSceneManager中实现，从增加了CSceneManager的内聚。可以考虑在CDefaultSceneNodeFactory::addSceneNode（）中直接new
+	 出各种类型的node。从而彻底的杜绝scene::ISceneNode * node = smgr->addSphereSceneNode();这样不优雅的方式
+	*/
+
 	//!	Interface making it possible to dynamicly create scene nodes and animators
 	class CDefaultSceneNodeFactory : public ISceneNodeFactory
 	{

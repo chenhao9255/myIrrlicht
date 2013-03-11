@@ -11,7 +11,9 @@ namespace irr
 {
 namespace scene
 {
-
+	//枚举node的所有类型，
+	//在CDefaultSceneNodeFactory::addSceneNode()方法中，其根据参数的ESCENE_NODE_TYPE类型，来创建相应的node
+	//
 	//! An enumeration for all types of built-in scene nodes
 	/** A scene node type is represented by a four character code
 	such as 'cube' or 'mesh' instead of simple numbers, to avoid

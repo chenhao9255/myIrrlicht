@@ -9,10 +9,8 @@
 7.   LightManager
 8	 GeometryCreator
 9.   IMeshLoader
-10. ISceneNodeFactory
-11. ISceneNodeAnimatorFactory
 12. IEventReceiver
-13.ISceneNodeAnimatorFinishing
+13. ISceneNodeAnimatorFinishing
 */
 
 
@@ -123,7 +121,8 @@ int main()
 	interesting. Because we have no dynamic lights in this scene we disable
 	lighting for each model (otherwise the models would be black).
 	*/
-	scene::ISceneNode * node = smgr->addSphereSceneNode();
+	//scene::ISceneNode * node = smgr->addSphereSceneNode();
+	scene::ISceneNode * node = smgr->getDefaultSceneNodeFactory()->addSceneNode(scene::ESNT_SPHERE);
 	if (node)
 	{
 		node->setPosition(core::vector3df(0,0,30));
@@ -142,37 +141,37 @@ int main()
 	node animator to it, letting this node fly around our sphere scene node.
 	*/
 
+// 
+// 	scene::ISceneNode* n = smgr->addCubeSceneNode();
+// 
+// 	if (n)
+// 	{
+// 		n->setMaterialTexture(0, driver->getTexture("../../media/t351sml.jpg"));
+// 		n->setMaterialFlag(video::EMF_LIGHTING, false);
+// 		scene::ISceneNodeAnimator* anim =
+// 			smgr->createFlyCircleAnimator(core::vector3df(0,0,30), 20.0f);
+// 		if (anim)
+// 		{
+// 			n->addAnimator(anim);
+// 			anim->drop();
+// 		}
+// 	}
 
-	scene::ISceneNode* n = smgr->addCubeSceneNode();
-
-	if (n)
-	{
-		n->setMaterialTexture(0, driver->getTexture("../../media/t351sml.jpg"));
-		n->setMaterialFlag(video::EMF_LIGHTING, false);
-		scene::ISceneNodeAnimator* anim =
-			smgr->createFlyCircleAnimator(core::vector3df(0,0,30), 20.0f);
-		if (anim)
-		{
-			n->addAnimator(anim);
-			anim->drop();
-		}
-	}
-
- 	n = smgr->addCubeSceneNode();
- 
- 	if (n)
- 	{
- 		n->setMaterialTexture(0, driver->getTexture("../../media/t351sml.jpg"));
- 		n->setMaterialFlag(video::EMF_LIGHTING, false);
- 		scene::ISceneNodeAnimator* anim =
-			smgr->createFlyStraightAnimator(core::vector3df(100,0,60),
-					core::vector3df(-100,0,60), 3500, true);
- 		if (anim)
- 		{
- 			n->addAnimator(anim);
- 			anim->drop();
- 		}
- 	}
+//  	n = smgr->addCubeSceneNode();
+//  
+//  	if (n)
+//  	{
+//  		n->setMaterialTexture(0, driver->getTexture("../../media/t351sml.jpg"));
+//  		n->setMaterialFlag(video::EMF_LIGHTING, false);
+//  		scene::ISceneNodeAnimator* anim =
+// 			smgr->createFlyStraightAnimator(core::vector3df(100,0,60),
+// 					core::vector3df(-100,0,60), 3500, true);
+//  		if (anim)
+//  		{
+//  			n->addAnimator(anim);
+//  			anim->drop();
+//  		}
+//  	}
 
 	/*
 	The last scene node we add to show possibilities of scene node animators is

@@ -151,7 +151,7 @@ ESCENE_NODE_ANIMATOR_TYPE CDefaultSceneNodeAnimatorFactory::getTypeFromName(cons
 {
 	for ( u32 i=0; SceneNodeAnimatorTypeNames[i]; ++i)
 		if (!strcmp(name, SceneNodeAnimatorTypeNames[i]) )
-			return (ESCENE_NODE_ANIMATOR_TYPE)i;
+			return (ESCENE_NODE_ANIMATOR_TYPE)i;  //强制类型转换
 
 	return ESNAT_UNKNOWN;
 }
